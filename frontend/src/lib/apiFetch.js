@@ -1,10 +1,8 @@
-import { toast } from "sonner";
-
 export async function apiFetch(endpoint, options = {}) {
   const baseURL =
     window.location.hostname === "localhost"
       ? "http://localhost:4000/api"
-      : "https://tu-dominio.com/api";
+      : "https://xtreme-office-backend.onrender.com/api"; // ← CAMBIADO
 
   const isFormData = options.body instanceof FormData;
 
@@ -18,13 +16,11 @@ export async function apiFetch(endpoint, options = {}) {
         },
   };
 
-  // 🔐 TOKEN JWT
   const token = localStorage.getItem("token");
   if (token) {
     fetchOptions.headers["Authorization"] = `Bearer ${token}`;
   }
 
-  // BODY
   if (options.body) {
     fetchOptions.body = isFormData
       ? options.body
@@ -39,7 +35,6 @@ export async function apiFetch(endpoint, options = {}) {
     return { ok: false, status: 0, data: null };
   }
 
-  // Intentar parsear JSON
   let data = null;
   try {
     data = await res.json();
@@ -47,7 +42,6 @@ export async function apiFetch(endpoint, options = {}) {
     data = null;
   }
 
-  // 🔥 TOKEN EXPIRADO O INVÁLIDO
   if (res.status === 401) {
     localStorage.removeItem("token");
     toast.error("Sesión expirada. Inicia sesión nuevamente.");
