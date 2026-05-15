@@ -125,12 +125,11 @@ const Home = () => {
                 className="bg-gray-50 rounded-xl p-4 border border-gray-100 shadow-sm flex flex-col"
               >
                 <img
-                  src={`http://localhost:4000/uploads/${p.image}`}
+                  src={`${import.meta.env.VITE_API_URL}/uploads/${p.image}`}
                   alt={p.name}
                   className="w-full h-32 object-contain rounded-lg mb-3 bg-white p-2"
                   loading="lazy"
                 />
-
 
                 <p className="text-xs font-black text-slate-700 truncate mb-1">
                   {p.name}
